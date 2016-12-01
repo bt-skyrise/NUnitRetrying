@@ -9,12 +9,12 @@ namespace NunitRetrying.Tests
     public class RunnableTest
     {
         private readonly ITest _test;
-        private readonly object _testObject;
+        private readonly object _fixture;
 
-        public RunnableTest(ITest test, object testObject)
+        public RunnableTest(ITest test, object fixture)
         {
             _test = test;
-            _testObject = testObject;
+            _fixture = fixture;
         }
 
         public ITestResult Run()
@@ -23,18 +23,24 @@ namespace NunitRetrying.Tests
 
             workItem.InitializeContext(new TestExecutionContext
             {
-                TestObject = _testObject,
-                Dispatcher = new SuperSimpleDispatcher()
+                TestObject = _fixture,
+                Dispatcher = new SimpleWorkItemDispatcher()
             });
+
+            WaitUntilCompleted(workItem);
+
+            return workItem.Result;
+        }
+
+        private static void WaitUntilCompleted(WorkItem workItem)
+        {
+            var autoResetEvent = new AutoResetEvent(false);
+
+            workItem.Completed += (sender, args) => autoResetEvent.Set();
 
             workItem.Execute();
 
-            while (workItem.State != WorkItemState.Complete)
-            {
-                Thread.Sleep(1);
-            }
-
-            return workItem.Result;
+            autoResetEvent.WaitOne();
         }
     }
 
