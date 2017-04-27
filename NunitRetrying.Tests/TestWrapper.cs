@@ -5,12 +5,12 @@ using NUnit.Framework.Internal.Execution;
 
 namespace NunitRetrying.Tests
 {
-    public class RunnableTest
+    public class TestWrapper
     {
         private readonly ITest _test;
         private readonly object _fixture;
 
-        public RunnableTest(ITest test, object fixture)
+        public TestWrapper(ITest test, object fixture)
         {
             _test = test;
             _fixture = fixture;

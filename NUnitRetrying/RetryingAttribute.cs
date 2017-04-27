@@ -22,7 +22,7 @@ namespace NUnitRetrying
             return new RetryingCommand(command, Times);
         }
 
-        public class RetryingCommand : DelegatingTestCommand
+        private class RetryingCommand : DelegatingTestCommand
         {
             private readonly int _times;
 
@@ -36,13 +36,12 @@ namespace NUnitRetrying
             {
                 var retriesLeft = _times;
 
-                context.CurrentResult = innerCommand.Execute(context);
+                RunTest(context);
 
-                while (TestFailed(context.CurrentResult) && retriesLeft > 0)
+                while (TestFailed(context) && retriesLeft > 0)
                 {
-                    // clear result for retry
-                    context.CurrentResult = context.CurrentTest.MakeTestResult();
-                    context.CurrentResult = innerCommand.Execute(context);
+                    ClearTestResult(context);
+                    RunTest(context);
 
                     retriesLeft--;
                 }
@@ -58,9 +57,19 @@ namespace NUnitRetrying
                 return context.CurrentResult;
             }
 
-            private static bool TestFailed(TestResult testResult)
+            private void RunTest(TestExecutionContext context)
             {
-                return UnsuccessfulResultStates.Contains(testResult.ResultState);
+                context.CurrentResult = innerCommand.Execute(context);
+            }
+
+            private static void ClearTestResult(TestExecutionContext context)
+            {
+                context.CurrentResult = context.CurrentTest.MakeTestResult();
+            }
+
+            private static bool TestFailed(TestExecutionContext context)
+            {
+                return UnsuccessfulResultStates.Contains(context.CurrentResult.ResultState);
             }
 
             private static ResultState[] UnsuccessfulResultStates => new[]
