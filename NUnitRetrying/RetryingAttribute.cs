@@ -35,11 +35,14 @@ namespace NUnitRetrying
             {
                 var retriesLeft = _times;
 
-                var testResult = innerCommand.Execute(context);
+                context.CurrentResult = innerCommand.Execute(context);
 
-                while (TestFailed(testResult) && retriesLeft > 0)
+                while (TestFailed(context.CurrentResult) && retriesLeft > 0)
                 {
-                    testResult = innerCommand.Execute(context);
+                    // clear result for retry
+                    context.CurrentResult = context.CurrentTest.MakeTestResult();
+                    context.CurrentResult = innerCommand.Execute(context);
+
                     retriesLeft--;
                 }
 
@@ -51,12 +54,12 @@ namespace NUnitRetrying
                     context.OutWriter.WriteLine($"Test retried {performedRetries} time/s.");
                 }
 
-                return testResult;
+                return context.CurrentResult;
             }
 
             private static bool TestFailed(TestResult testResult)
             {
-                return testResult.ResultState.Equals(ResultState.Failure);
+                return testResult.ResultState.Equals(ResultState.Failure); // todo: shouldn't we also check error?
             }
         }
     }
