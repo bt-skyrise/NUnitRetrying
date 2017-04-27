@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
@@ -59,8 +60,14 @@ namespace NUnitRetrying
 
             private static bool TestFailed(TestResult testResult)
             {
-                return testResult.ResultState.Equals(ResultState.Failure); // todo: shouldn't we also check error?
+                return UnsuccessfulResultStates.Contains(testResult.ResultState);
             }
+
+            private static ResultState[] UnsuccessfulResultStates => new[]
+            {
+                ResultState.Failure,
+                ResultState.Error
+            };
         }
     }
 }

@@ -12,16 +12,16 @@ namespace NunitRetrying.Tests
     {
         public static RunnableTest GetTest(Expression<Action<RetryingTestMethods>> testSelector)
         {
-            var methodName = ((MethodCallExpression)testSelector.Body).Method.Name;
+            var testMethodName = ((MethodCallExpression)testSelector.Body).Method.Name;
 
-            return GetTest(methodName);
+            return GetTest(testMethodName);
         }
 
-        public static RunnableTest GetTest(string testName)
+        public static RunnableTest GetTest(string testMethodName)
         {
             var fixture = new TFixture();
 
-            var selectedTest = FindTest(testName, fixture);
+            var selectedTest = FindTest(testMethodName, fixture);
 
             return new RunnableTest(selectedTest, fixture);
         }
