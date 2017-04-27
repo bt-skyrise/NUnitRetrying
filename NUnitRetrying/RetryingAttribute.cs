@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Commands;
@@ -8,7 +7,7 @@ using NUnit.Framework.Internal.Commands;
 namespace NUnitRetrying
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class RetryingAttribute : NUnitAttribute, IWrapSetUpTearDown
+    public class RetryingAttribute : Attribute, IWrapSetUpTearDown
     {
         public int Times { get; set; }
 

@@ -3,7 +3,7 @@ using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Execution;
 
-namespace NunitRetrying.Tests
+namespace NunitRetrying.Tests.RunningTests
 {
     public class TestWrapper
     {

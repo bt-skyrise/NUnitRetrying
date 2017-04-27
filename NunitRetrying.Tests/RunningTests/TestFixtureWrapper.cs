@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using NUnit.Framework.Internal;
 using NUnit.Framework.Internal.Builders;
 
-namespace NunitRetrying.Tests
+namespace NunitRetrying.Tests.RunningTests
 {
     public class TestFixtureWrapper<TFixture>
         where TFixture : new()

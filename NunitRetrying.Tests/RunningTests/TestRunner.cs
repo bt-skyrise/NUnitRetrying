@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using NUnit.Framework.Interfaces;
 
-namespace NunitRetrying.Tests
+namespace NunitRetrying.Tests.RunningTests
 {
     public static class TestRunner<TFixture>
         where TFixture : new()

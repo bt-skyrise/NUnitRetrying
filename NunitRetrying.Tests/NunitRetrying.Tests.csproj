@@ -54,10 +54,10 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RetryingAttributeTests.cs" />
-    <Compile Include="TestWrapper.cs" />
+    <Compile Include="RunningTests\TestWrapper.cs" />
     <Compile Include="RetryingSystemUnderTests.cs" />
-    <Compile Include="TestFixtureWrapper.cs" />
-    <Compile Include="TestRunner.cs" />
+    <Compile Include="RunningTests\TestFixtureWrapper.cs" />
+    <Compile Include="RunningTests\TestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NUnitRetrying\NUnitRetrying.csproj">
